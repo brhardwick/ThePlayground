@@ -49,12 +49,16 @@ namespace Rextester
         
         private string Int2Binary(int x)
         {
+			//This relies on the fact that Convert.ToString() can convert into a base. 
+			//Here, i convert to Base 2 and add a few zeroes if its not long enough
             return Convert.ToString(x,2).PadLeft(size,'0');
         }
+
         private List<int> Binary2IntList(string s)
         {
             List<int> temp = new List<int>(s.Length);
             
+			//This function assumes that each string is a binary. It then converts them all to a 1 or 0
             foreach(var i in s.ToCharArray())
             {
                 int tempint;
@@ -66,11 +70,30 @@ namespace Rextester
             }
             return temp;
         }
+
+		private List<bool> Binary2BoolList(string s)
+        {
+            List<bool> temp = new List<bool>(s.Length);
+            
+			//This function assumes that each string is a binary. It then converts them all to a true or false
+            foreach(var i in s.ToCharArray())
+            {
+                int tempint;
+                if(int.TryParse(i.ToString(),out tempint))
+                      temp.Add(tempint==1?true:false);
+                   
+                   else
+                       return null;
+            }
+            return temp;
+        }
     }
     public class Program
     {
         public static void Main(string[] args)
         {
+			//My test of the Truth Table is to generate all iterations of the 
+			// letters in a name. 
             string s = "AGUSTINA";
             TruthTable t = new TruthTable(s.Length);
             var map = t.Result;
@@ -86,8 +109,7 @@ namespace Rextester
                 }
                 Console.WriteLine(temp);
             }   
-            
-            
+                        
             return;
      
         }
